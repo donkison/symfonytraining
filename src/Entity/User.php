@@ -44,9 +44,17 @@ class User implements UserInterface
      */
     private $apiTokens;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\userGroup", mappedBy="User")
+     *
+     * @Groups("main")
+     */
+    private $userGroup;
+
     public function __construct()
     {
         $this->apiTokens = new ArrayCollection();
+        $this->userGroup = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -173,6 +181,34 @@ class User implements UserInterface
             if ($apiToken->getUser() === $this) {
                 $apiToken->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|userGroup[]
+     */
+    public function getUserGroup(): Collection
+    {
+        return $this->userGroup;
+    }
+
+    public function addUserGroup(userGroup $userGroup): self
+    {
+        if (!$this->userGroup->contains($userGroup)) {
+            $this->userGroup[] = $userGroup;
+            $userGroup->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserGroup(userGroup $userGroup): self
+    {
+        if ($this->userGroup->contains($userGroup)) {
+            $this->userGroup->removeElement($userGroup);
+            $userGroup->removeUser($this);
         }
 
         return $this;
