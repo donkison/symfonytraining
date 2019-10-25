@@ -50,7 +50,6 @@ class UserService
        {
            throw new EntityNotFoundException('User with id '.$userId.' does not exist!');
        }
-
     }
 
     public function getAllUser()
