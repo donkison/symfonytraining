@@ -53,7 +53,6 @@ class userGroupsController extends AbstractFOSRestController
         return $this->json($group, Response::HTTP_OK,[],['groups'=>['main']]);
         //return View::create($user, Response::HTTP_OK);
     }
-
     /**
      * @Rest\Delete("/groups/{groupId}")
      * @IsGranted("ROLE_ADMIN")
